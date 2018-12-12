@@ -9,21 +9,27 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
 import os
 
+from ruamel import yaml
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from django.core.exceptions import ImproperlyConfigured
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'qo&9o*j$w8a=*h+fcsib_r@*z3r&*3t^ee%o3oj$6@^ift8uzq'
+# SECRET_KEY = 'qo&9o*j$w8a=*h+fcsib_r@*z3r&*3t^ee%o3oj$6@^ift8uzq'
+
+# SECRET_DIR = os.path.join(os.path.dirname(BASE_DIR), '.credentials')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -73,12 +79,12 @@ WSGI_APPLICATION = 'papyrus.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, '../../db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -118,3 +124,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# SECURITY WARNING: keep the secret key used in production secret!
+CREDENTIAL_DIR = os.path.join(BASE_DIR, '.credentials')
+CREDENTIAL_FILE = os.path.join(CREDENTIAL_DIR, 'credentials.yaml')
+
+with open(CREDENTIAL_FILE) as stream:
+    credentials = yaml.safe_load(stream)
+
+
+def get_credential(type, item, credentials=credentials):
+    try:
+        return credentials[type][item]
+    except KeyError:
+        error_msg = "Set the {} : {} environ variable".format(type, item)
+        raise ImproperlyConfigured(error_msg)
+
+
+SECRET_KEY = get_credential('django', 'secret_key')

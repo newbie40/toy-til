@@ -7,6 +7,8 @@ name = "pypi"
 
 [packages]
 django = "==2.1.3"
+"psycopg2-binary" = "*"
+ruamel-yaml = "*"
 
 [requires]
 python_version = "3.5"

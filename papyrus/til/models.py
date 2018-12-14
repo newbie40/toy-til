@@ -6,18 +6,16 @@ class Category(models.Model):
     name = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["name"]
 
     def __str__(self):
-        print('%s %s' % self.user.username, self.name)
+        return '%s' % self.name
 
 
 class Post(models.Model):
     content = models.TextField()
-    bookmark = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -27,4 +25,18 @@ class Post(models.Model):
         ordering = ["created_at"]
 
     def __str__(self):
-        print('%s %s %s %s' % self.user.username, self.category.name, self.content[:30], self.bookmark)
+        return '%s %s %s' % (self.user.username, self.category.name, self.content[:30])
+
+
+class Comment(models.Model):
+    content = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ["created_at"]
+
+    def __str__(self):
+        return '%s %s %s' % (self.user.username, self.content, self.post.content[:10])

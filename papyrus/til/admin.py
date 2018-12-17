@@ -10,8 +10,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class PostAdmin(admin.ModelAdmin):
-    fields = ['content', 'user', 'category']
-    list_display = ('content', 'user', 'category')
+    fields = ['title', 'content', 'user', 'category']
+    list_display = ('title', 'content', 'user', 'category')
 
 
 class CommentAdmin(admin.ModelAdmin):

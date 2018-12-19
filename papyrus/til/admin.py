@@ -17,7 +17,7 @@ class PostAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Post', {'fields': ['post']}),
-        ('Comment', {'fields': ['content']}),
+        ('Comment', {'fields': ['content', 'user']}),
     ]
     list_display = ('content', 'user')
 

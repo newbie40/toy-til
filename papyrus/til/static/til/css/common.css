@@ -1,0 +1,10 @@
+
+body {background-color: #D8DFE5;}
+
+.ui.menu {background-color: #FFFFFF;}
+
+.ui.main.grid {margin-top: 1em; margin-left: 1em; margin-right: 1em;}
+
+.ui.menu .item>.input input#search {min-width: 300px;}
+
+.ui.main h4.ui.header .sub.header {margin-left:70px;}

@@ -7,25 +7,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'til/semantic/semantic.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'til/css/common.css' %}">
 </head>
 <body>
     <!-- fixed menu -->
+    <div class="ui menu borderless top fixed">
+        <div class="item">
+            <i class="icon large map outline blue"></i>
+            <div class="middle aligned content">
+                <h3 class="ui header large grey">papyrus</h3>
+            </div>
+        </div>
+        <div class="item fitted">
+            <select class="ui search selection dropdown mini" id="category-select">
+                <option value="all">All</option>
+                {% if category_list %}
+                    {% for category in category_list %}
+                        <option value="{{ category.name }}">{{ category.name }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+        <div class="right menu">
+            <div class="item">
+                <div class="ui action input small">
+                    <input id="search" type="text" placeholder="Search...">
+                    <button class="ui icon button">
+                        <i class="search icon"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="item fitted">
+                <button class="ui primary basic button">Log In</button>
+            </div>
+            <div class="item">
+                <div class="ui primary button">Sign Up</div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- contents here -->
-    {% if post_list %}
-        <ul>
-        {% for post in post_list %}
-            <li><a href="#">{{ post.title }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No post are available.</p>
-    {% endif %}
+{#    <div class="ui main container">#}
+        <div class="ui main grid">
+            <div class="twelve wide column">
+                <div class="ui fluid vertical menu">
+
+                    {% if post_list %}
+                        {% for post in post_list %}
+                            <a class="item">
+                                <h4 class="ui header">
+                                    <div class="ui horizontal label basic blue right">
+                                        {{ post.category.name }}
+                                    </div>
+                                    {{ post.title }}
+                                    <div class="sub header">
+                                        {{ post.created_at }}  |  {{ post.user.username }}  |  comments {{ post.comment.count }}
+                                    </div>
+                                </h4>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="four wide column">
+                <div class="ui card">
+                  <div class="content">
+                    <div class="header">Project Timeline</div>
+                  </div>
+                  <div class="content">
+                    <h4 class="ui sub header">Activity</h4>
+                    <div class="ui small feed">
+                      <div class="event">
+                        <div class="content">
+                          <div class="summary">
+                             <a>Elliot Fu</a> added <a>Jenny Hess</a> to the project
+                          </div>
+                        </div>
+                      </div>
+                      <div class="event">
+                        <div class="content">
+                          <div class="summary">
+                             <a>Stevie Feliciano</a> was added as an <a>Administrator</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="event">
+                        <div class="content">
+                          <div class="summary">
+                             <a>Helen Troy</a> added two pictures
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="extra content">
+                    <button class="ui button">Join Project</button>
+                  </div>
+                </div>
+            </div>
+{#    </div>#}
+
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="{% static 'til/semantic/semantic.min.js' %}"></script>
     <script>
         // javascript here
+        $('#category-select').dropdown();
+
     </script>
 </body>
 </html>
